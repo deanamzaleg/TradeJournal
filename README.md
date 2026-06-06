@@ -1,80 +1,100 @@
 # TradeJournal
 
-A clean, modern trading journal for swing traders. Log trades, track P&L, analyze performance — all running locally with live Finnhub prices.
+A clean, modern trading journal built for swing traders. Log trades, track realized and unrealized P&L, analyze performance across strategies — all running locally on your machine with live Finnhub prices.
 
-![Dashboard](screenshots/dashboard.png)
+No cloud. No subscription. Your data stays on your disk.
+
+---
+
+## Screenshots
+
+| Dashboard | Calendar |
+|-----------|----------|
+| ![Dashboard](screenshots/dashboard.png) | ![Calendar](screenshots/calendar.png) |
+
+| Open Trades | Trade Entry |
+|-------------|-------------|
+| ![Open Trades](screenshots/open-trades.png) | ![Trade Form](screenshots/trade-form.png) |
+
+| Closed Trades | Cash & FX |
+|---------------|-----------|
+| ![Closed Trades](screenshots/closed-trades.png) | ![Cash](screenshots/cash.png) |
 
 ---
 
 ## Features
 
 ### Dashboard
-- **Realized KPIs** — Net P/L, Win Rate, Profit Factor, Avg Win/Loss, Expectancy, Max Drawdown, W/L Streaks
-- **Unrealized KPIs** — live market value and open P&L via Finnhub
-- **Monthly Goal ring** — set a profit target, watch it fill
-- **Top Trades** — best and worst closed trades ($ or %)
-- **Top Unrealized** — best and worst open positions by live price
-
-![KPIs and Goal](screenshots/kpis.png)
-
-### Charts
-- Cumulative realized P&L over time
-- Win/Loss by strategy (bar chart)
-- Monthly P&L summary
+- **Realized KPIs** — Net P&L, Win Rate, Profit Factor, Avg Win/Loss, Expectancy, Max Drawdown, Win/Loss streaks
+- **Unrealized KPIs** — live market value and open P&L via Finnhub (auto-refreshes every 30s)
+- **Monthly goal ring** — set a profit target, watch it fill as you close trades
+- **Top Trades card** — best and worst closed trade (switchable $ / %)
+- **Top Unrealized card** — best and worst open position by live price
+- **Charts** — cumulative realized P&L over time, P&L by strategy, monthly P&L bar
 
 ### Calendar View
-Full monthly calendar grid (week starts Sunday) with:
-- Green days = net profit, Red days = net loss, Blue days = buys only
-- Weekly P&L column on the right
+Full monthly calendar (week starts Sunday) showing:
+- 🟢 Green day = net realized profit · 🔴 Red = net loss · 🔵 Blue = buys only, no sells
+- Weekly P&L column on the right side of each row
+- Prev / Next month navigation
 
-![Calendar](screenshots/calendar.png)
+### Trades — Open Positions
+- Shows only positions that are **currently open** (sold positions disappear automatically)
+- Live **current price**, **unrealized P&L %** and **$** per row
+- **SELL button** on each row — opens the sell form pre-filled with that symbol
+- Sortable by any column
+- Finnhub API key input + manual **Refresh Prices** button
 
-### Trades View
-- **Open Trades tab** — all BUY fills for currently open positions, with live current price, unrealized P&L % and $, and a SELL button per row
-- **Closed Trades tab** — all completed sells with realized P&L per sell event
-- Sortable columns, asset/strategy/tag filters
-- Finnhub API key input + manual Refresh Prices button
-
-![Open Trades](screenshots/open-trades.png)
-![Closed Trades](screenshots/closed-trades.png)
+### Trades — Closed Trades
+- Every completed sell with realized P&L, sell price, avg cost, and fee
+- Sortable by any column
 
 ### Trade Entry Form
-- BUY / SELL toggle
-- Dollar-amount or shares quantity mode (default $200)
-- Strategy dropdown built from past trades + Add New
-- Tags as pill toggles + Add New
-- Stop loss: None / Fixed / Trailing %
-- **Sell All** button — auto-fills exact share count so no rounding residue
-- SELL form pre-fills strategy, tags, notes from the matching BUY
-
-![Trade Form](screenshots/trade-form.png)
+- BUY / SELL toggle — or click the row-level SELL button to pre-fill the symbol
+- **Dollar amount or shares** quantity mode (default $200)
+- **Strategy** — dropdown built from your past trades + **+** button to add new
+- **Tags** — toggleable pill buttons + **+** to add new
+- Stop loss: None / Fixed price / Trailing %
+- **Sell All** button — appears when selling a symbol you hold; fills in the exact share count so no rounding residue is left behind
+- SELL form pre-fills strategy, tags, and notes from the matching BUY
 
 ### Cash & FX Panel
-- Free USD cash balance (deposits − buys + sells − fees − tax)
-- NIS → USD deposit form with rate input
-- Weighted average buy rate displayed prominently
+- Free USD cash balance: `deposits − buys + sells − fees − tax`
+- NIS → USD deposit form (enter NIS amount + today's rate)
+- Weighted **average buy rate** shown prominently so you never lose on the conversion
 - Manual tax deduction
 - Monthly fee total
 
-![Cash Panel](screenshots/cash.png)
-
 ### Multiple Portfolios
-Create and switch between named portfolios — same layout, separate data.
+Create and switch between named portfolios — same layout, completely separate data.
 
 ---
 
 ## Tech Stack
 
-**Frontend** — React 18 · TypeScript · Vite · Tailwind CSS · Recharts · lucide-react  
-**Backend** — Node · Express · TypeScript  
-**Persistence** — `journal.json` (source of truth) + auto-mirrored `journal.csv`  
-**Prices** — Finnhub API (proxied through backend, key never exposed to browser)
+- **Frontend** — React 18, TypeScript, Vite, Tailwind CSS, Recharts, lucide-react
+- **Backend** — Node.js, Express, TypeScript
+- **Persistence** — `journal.json` (source of truth) + auto-mirrored `journal.csv`
+- **Live prices** — Finnhub API, proxied through the backend (API key never touches the browser)
 
 ---
 
-## Setup
+## Installation
 
-### 1. Clone & install
+### Prerequisites (one-time installs)
+
+| Tool | Where to get it |
+|------|----------------|
+| **Node.js** (LTS) | [nodejs.org](https://nodejs.org) |
+| **Git** | [git-scm.com](https://git-scm.com) |
+
+Install both with default options. That's all you need.
+
+---
+
+### Step 1 — Download & install
+
+Open a terminal (`Win + R` → type `cmd` → Enter) and run:
 
 ```bash
 git clone https://github.com/deanamzaleg/TradeJournal.git
@@ -82,91 +102,110 @@ cd TradeJournal
 npm install
 ```
 
-### 2. Get a Finnhub API key
+`npm install` downloads all dependencies — takes about 30 seconds.
 
-1. Go to [finnhub.io](https://finnhub.io) and sign up (free)
-2. After login, go to **Dashboard → API Keys**
-3. Copy your key (looks like `d8hbet1r...`)
+---
 
-You can enter the key in two ways — pick one:
+### Step 2 — Get a Finnhub API key
 
-**Option A — via the app UI (easiest):**
-Start the app, go to **Trades** tab, find the Finnhub bar at the top, paste your key and click **Save**. The key is stored on the backend in `server/data/settings.json` (never sent back to the browser).
+1. Go to **[finnhub.io](https://finnhub.io)** → click **Sign Up** (free, no credit card)
+2. After login → **Dashboard** → copy the API key shown there (looks like `d8hbet1r...`)
+
+**Set the key in two ways — pick one:**
+
+**Option A — via the app (easiest):**
+Start the app first, go to the **Trades** tab, find the Finnhub bar at the top, paste your key, click **Save**. Done. The key is stored locally on your machine, never sent back to the browser.
 
 **Option B — via `.env` file:**
-Create a file called `.env` in the repo root:
+Create a file named `.env` in the `TradeJournal` folder:
 ```
-FINNHUB_API_KEY=your_key_here
+FINNHUB_API_KEY=paste_your_key_here
 PORT=5174
 DATA_DIR=./data
 ```
 
-### 3. Run
+---
+
+### Step 3 — Run
 
 ```bash
 npm run dev
 ```
 
-Opens:
-- Frontend: [http://localhost:5173](http://localhost:5173)
-- Backend API: [http://localhost:5174](http://localhost:5174)
+Then open your browser:
+```
+http://localhost:5173
+```
+
+Leave the terminal window open — closing it stops the app.
 
 ---
 
-## How it works
+### Step 4 — First-time setup in the app
 
-### Position engine
-Trades are stored as individual fills (not entry/exit pairs), enabling scale-in and scale-out. Replaying all fills in time order gives a running average cost per symbol. A position is **open** when shares > 0, **closed** when it returns to zero. Realized P&L on a sell = `(sellPrice − avgCost) × shares − fee`.
-
-### Period filter
-The period selector (Today / Week / Month / All Time) filters **realized KPIs** by the sell date — not by the buy date. This ensures average cost is always computed from all fills, even when the buy happened before the selected period.
-
-### Dollar-mode quantity
-When entering a trade in $ mode, the system converts: `shares = amount / price`. If you buy $200 and later sell $200 at a different price, rounding leaves a sub-cent residue. The app automatically zeroes positions worth less than $0.05 to avoid phantom open trades.
-
-### Data files
-All trade data is stored locally:
-- `server/data/journal.json` — source of truth, human-readable
-- `server/data/journal.csv` — auto-mirrored on every save (open in Excel)
-- `server/data/settings.json` — stores the Finnhub key if entered via UI
-
-None of these are committed to git.
+1. You'll see **"Create your first portfolio"** → type a name (e.g. `Main Account`) → click **Create Portfolio**
+2. Go to **Trades** tab → paste your Finnhub key in the top bar → click **Save** → click **Refresh Prices**
+3. Click the green **BUY** button (top right) to log your first trade
 
 ---
 
-## Available commands
+## Daily use
+
+| Action | How |
+|--------|-----|
+| Log a buy | **BUY** button (top right) |
+| Close a position | **Trades → Open Trades** → click **SELL** on the row |
+| View performance | **Dashboard** — switch period: Today / Week / Month / All Time |
+| Browse history | **Calendar** view |
+| Add cash deposit | **Cash & FX** tab → Add Cash |
+| Export to Excel | Data auto-saves to `server/data/journal.csv` — open it any time |
+
+---
+
+## Where your data lives
+
+```
+TradeJournal/
+  server/data/
+    journal.json      ← source of truth (human-readable)
+    journal.csv       ← auto-updated mirror, open in Excel anytime
+    settings.json     ← stores your Finnhub key if entered via the UI
+```
+
+All files are local, git-ignored, and never leave your machine.
+
+---
+
+## Stop & restart
+
+```bash
+# Stop
+Ctrl + C   (in the terminal)
+
+# Start again
+npm run dev
+```
+
+---
+
+## All commands
 
 ```bash
 npm run dev          # start backend + frontend together
-npm run dev:server   # backend only
-npm run dev:web      # frontend only
+npm run dev:server   # backend only  (port 5174)
+npm run dev:web      # frontend only (port 5173)
 npm run build        # type-check + production build
 npm run lint         # ESLint
 ```
 
 ---
 
-## Screenshots
+## How the position engine works
 
-> Add screenshots to a `screenshots/` folder in the repo root after cloning.
+Trades are stored as individual fills — not entry/exit pairs — so you can scale in and out freely. Replaying all fills in time order gives a running **average cost** per symbol. A position is **open** when shares > 0, **closed** when it returns to zero.
 
-| View | Description |
-|------|-------------|
-| `dashboard.png` | Main dashboard with KPIs, goal ring, charts |
-| `kpis.png` | Realized and unrealized KPI cards |
-| `calendar.png` | Monthly calendar with daily P&L coloring |
-| `open-trades.png` | Open positions with live prices |
-| `closed-trades.png` | Closed trades with realized P&L |
-| `trade-form.png` | BUY/SELL entry form |
-| `cash.png` | Cash & FX panel |
+**Realized P&L on a sell** = `(sellPrice − avgCost) × shares − fee`
 
----
+**Period filter** (Today/Week/Month) filters KPIs by the *sell date*, not the buy date. This means average cost is always computed from all fills even when the buy happened before the selected period.
 
-## Design
-
-Dark trader UI with lime-green accent (`#b4ec51`). Tabular numerals throughout. Responsive layout.
-
-- Background: `#0a0c0f`
-- Panels: `#14171c`
-- Accent: `#b4ec51`
-- Positive: `#3fd07f` · Negative: `#f0566e` · Buy: `#3b82f6`
+**Dollar-mode rounding** — buying $200 then selling $200 at a different price leaves a tiny share residue. Positions worth less than $0.05 are automatically zeroed out to avoid phantom open trades. Use the **Sell All** button to avoid this entirely.
