@@ -1,0 +1,21 @@
+node_modules/
+server/node_modules/
+web/node_modules/
+dist/
+server/dist/
+web/dist/
+
+# Secrets & data — never commit
+.env
+data/
+server/data/
+*.csv
+
+# Personal / dev artifacts
+.claude/
+.agents/
+Claude design/
+design-system/
+images/
+skills-lock.json
+trading jurnal-handoff*
