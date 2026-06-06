@@ -6,22 +6,6 @@ No cloud. No subscription. Your data stays on your disk.
 
 ---
 
-## Screenshots
-
-| Dashboard | Calendar |
-|-----------|----------|
-| ![Dashboard](screenshots/dashboard.png) | ![Calendar](screenshots/calendar.png) |
-
-| Open Trades | Trade Entry |
-|-------------|-------------|
-| ![Open Trades](screenshots/open-trades.png) | ![Trade Form](screenshots/trade-form.png) |
-
-| Closed Trades | Cash & FX |
-|---------------|-----------|
-| ![Closed Trades](screenshots/closed-trades.png) | ![Cash](screenshots/cash.png) |
-
----
-
 ## Features
 
 ### Dashboard
@@ -32,11 +16,19 @@ No cloud. No subscription. Your data stays on your disk.
 - **Top Unrealized card** — best and worst open position by live price
 - **Charts** — cumulative realized P&L over time, P&L by strategy, monthly P&L bar
 
+![Dashboard](screenshots/dashboard.png)
+
+---
+
 ### Calendar View
 Full monthly calendar (week starts Sunday) showing:
 - 🟢 Green day = net realized profit · 🔴 Red = net loss · 🔵 Blue = buys only, no sells
 - Weekly P&L column on the right side of each row
 - Prev / Next month navigation
+
+![Calendar](screenshots/calendar.png)
+
+---
 
 ### Trades — Open Positions
 - Shows only positions that are **currently open** (sold positions disappear automatically)
@@ -45,9 +37,17 @@ Full monthly calendar (week starts Sunday) showing:
 - Sortable by any column
 - Finnhub API key input + manual **Refresh Prices** button
 
+![Open Trades](screenshots/open-trades.png)
+
+---
+
 ### Trades — Closed Trades
 - Every completed sell with realized P&L, sell price, avg cost, and fee
 - Sortable by any column
+
+![Closed Trades](screenshots/closed-trades.png)
+
+---
 
 ### Trade Entry Form
 - BUY / SELL toggle — or click the row-level SELL button to pre-fill the symbol
@@ -58,12 +58,20 @@ Full monthly calendar (week starts Sunday) showing:
 - **Sell All** button — appears when selling a symbol you hold; fills in the exact share count so no rounding residue is left behind
 - SELL form pre-fills strategy, tags, and notes from the matching BUY
 
+![Trade Form](screenshots/trade-form.png)
+
+---
+
 ### Cash & FX Panel
 - Free USD cash balance: `deposits − buys + sells − fees − tax`
 - NIS → USD deposit form (enter NIS amount + today's rate)
 - Weighted **average buy rate** shown prominently so you never lose on the conversion
 - Manual tax deduction
 - Monthly fee total
+
+![Cash Panel](screenshots/cash.png)
+
+---
 
 ### Multiple Portfolios
 Create and switch between named portfolios — same layout, completely separate data.
@@ -109,12 +117,12 @@ npm install
 ### Step 2 — Get a Finnhub API key
 
 1. Go to **[finnhub.io](https://finnhub.io)** → click **Sign Up** (free, no credit card)
-2. After login → **Dashboard** → copy the API key shown there (looks like `d8hbet1r...`)
+2. After login → **Dashboard** → copy the API key shown there
 
 **Set the key in two ways — pick one:**
 
 **Option A — via the app (easiest):**
-Start the app first, go to the **Trades** tab, find the Finnhub bar at the top, paste your key, click **Save**. Done. The key is stored locally on your machine, never sent back to the browser.
+Start the app first, go to the **Trades** tab, find the Finnhub bar at the top, paste your key, click **Save**. The key is stored locally on your machine, never sent back to the browser.
 
 **Option B — via `.env` file:**
 Create a file named `.env` in the `TradeJournal` folder:
